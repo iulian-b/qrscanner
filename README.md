@@ -1,7 +1,7 @@
 # qrscanner
 Aceasta aplicatie este un sumplu scanner de coduri QR si barcode scris in Kotlin.
 
-Foloseste ca baza libreria Code scanner[^1] 2.1.0 pentru citirea si procesarea codurilor, QRGenerator[^2] 1.0.4 si ZXing 3.4.0
+Foloseste ca baza libreria Code scanner[^1] 2.1.0 pentru citirea si procesarea codurilor, QRGenerator[^2] 1.0.4 si ZXing[^3] 3.4.0
 pentru generarea acestora.
 
 Vor fi presente aceleasi functionalitati ca in orice alta aplicatie scanner care se gaseste pe play store, precum :
