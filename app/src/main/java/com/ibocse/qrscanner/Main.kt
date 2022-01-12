@@ -24,11 +24,9 @@ import android.provider.ContactsContract
 import android.view.View
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-
 private const val CAMERA_REQUEST_CODE = 101
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var codeScanner: CodeScanner
     private var TYPE = "TXT"  // TXT, URL, TEL, CNT
     private var RESULT = ""
@@ -44,7 +42,6 @@ class MainActivity : AppCompatActivity() {
         setupPermission()
         codeScanner()
     }
-
 
     private fun codeScanner() {
         val fab = findViewById<View>(R.id.fab) as FloatingActionButton
@@ -123,7 +120,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
     fun onClickTEL(view: android.view.View) {
         val intent = Intent(Intent.ACTION_DIAL)
         intent.data = Uri.parse(RESULT)
@@ -155,7 +151,6 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra(ContactsContract.Intents.Insert.PHONE, Telefon)
         startActivityForResult(intent, 1)
     }
-
 
     private fun Context.copyToClipboard(text: CharSequence){
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -201,9 +196,8 @@ class MainActivity : AppCompatActivity() {
                 tv_textViewCNT.isClickable = false
                 tv_textViewTXT.isClickable = true}
         }
-
-
     }
+
     private fun getEmoji(unicode: Int): String {
         return String(Character.toChars(unicode))
     }
