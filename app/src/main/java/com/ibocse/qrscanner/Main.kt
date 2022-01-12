@@ -20,7 +20,9 @@ import com.budiyev.android.codescanner.ScanMode
 import kotlinx.android.synthetic.main.layout_main.*
 import android.content.Intent
 import android.net.Uri
+import android.provider.ContactsContract
 import android.view.View
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 private const val CAMERA_REQUEST_CODE = 101
@@ -45,6 +47,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun codeScanner() {
+        val fab = findViewById<View>(R.id.fab) as FloatingActionButton
         val scannerView = findViewById<CodeScannerView>(R.id.scanner_view)
         codeScanner = CodeScanner(this, scannerView)
 
@@ -65,13 +68,21 @@ class MainActivity : AppCompatActivity() {
                     TYPE = "CNT"
                     setVisible(2)
                     tv_textView.text = getEmoji(unicodeContact)
-                    var tmp = ""
-                    tmp = result.substring(result.indexOf("VERSION")+14)
-                    tmp = tmp.substringBefore("ORG:")
-                    tmp.trim()
-                    tmp = tmp.replace(";"," ")
+
+                    var Nume = RESULT.drop(26)
+                    Nume = Nume.substringBefore(';')
+
+                    var Prenume = RESULT.drop(26)
+                    Prenume = Prenume.substringAfter(';')
+                    Prenume = Prenume.substringBefore("TEL:")
+
+                    var Telefon = RESULT.drop(26)
+                    Telefon = Telefon.dropLast(9)
+                    Telefon = Telefon.substringAfter("TEL:")
+
+                    val res = Nume + " " + Prenume + Telefon
                     tv_textViewCNT.setTextColor(Color.parseColor("#ebcc34"))
-                    tv_textViewCNT.text = tmp
+                    tv_textViewCNT.text = res
 
                 } else if (result.contains("tel:")) {    //telefon
                     TYPE = "TEL"
@@ -109,6 +120,7 @@ class MainActivity : AppCompatActivity() {
         scannerView.setOnClickListener {
             codeScanner.startPreview()
         }
+
     }
 
 
@@ -118,18 +130,40 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun onClickCNT(view: android.view.View) {
-        //TODO
-        // add contact
+    fun onClickFAB(view: android.view.View) {
+        val newActivity = Intent(this, GenerateQR::class.java)
+        startActivity(newActivity)
     }
 
-    fun Context.copyToClipboard(text: CharSequence){
+    fun onClickCNT(view: android.view.View) {
+        var Nume = RESULT.drop(26)
+        Nume = Nume.substringBefore(';')
+
+        var Prenume = RESULT.drop(26)
+        Prenume = Prenume.substringAfter(';')
+        Prenume = Prenume.substringBefore("TEL:")
+
+        var Telefon = RESULT.drop(26)
+        Telefon = Telefon.dropLast(9)
+        Telefon = Telefon.substringAfter("TEL:")
+
+
+        val intent = Intent(ContactsContract.Intents.Insert.ACTION)
+        intent.type = ContactsContract.RawContacts.CONTENT_TYPE
+        intent.putExtra(ContactsContract.Intents.Insert.NAME, Prenume + " " + Nume)
+        intent.putExtra(ContactsContract.Intents.Insert.PHONE_TYPE, 2) // 2 = mobile, 1 = home
+        intent.putExtra(ContactsContract.Intents.Insert.PHONE, Telefon)
+        startActivityForResult(intent, 1)
+    }
+
+
+    private fun Context.copyToClipboard(text: CharSequence){
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("label",text)
         clipboard.setPrimaryClip(clip)
     }
 
-    fun setVisible(X: Int){
+    private fun setVisible(X: Int){
         when (X) {
             0 -> {tv_textViewURL.visibility = View.VISIBLE
                 tv_textViewTEL.visibility = View.INVISIBLE
@@ -170,7 +204,7 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-    fun getEmoji(unicode: Int): String {
+    private fun getEmoji(unicode: Int): String {
         return String(Character.toChars(unicode))
     }
 

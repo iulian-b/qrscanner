@@ -124,8 +124,9 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:contentDescription="@string/app_name"
-        app:rippleColor="@color/ic_encode_background"
-        app:fabSize="normal"
-        android:text="+"/>
+        android:onClick="onClickFAB"
+        android:src="@drawable/fab_text_foreground"
+        app:backgroundTint="@color/purple_500"
+        app:fabSize="normal" />
 
 </RelativeLayout>

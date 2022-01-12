@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">qrscanner</string>
+    <string name="title_activity_genrate_qr">GenrateQR</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title_activity_generate_qr">GenerateQR</string>
+    <string name="title_activity_generate">Generate</string>
+
+    <string name="qr_code">qr_code</string>
+    <string name="enter">Introduceti un text</string>
+    <string name="generate_qr_code">Generati cod QR</string>
+    <string name="fab_gen">+</string>
 </resources>
